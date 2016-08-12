@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet"
+  href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body ng-app='app'>
+  <div ng-controller = 'LabsCtrl' class='container'>
+    <h1>Recent Posts</h1>
+
+          <h2>Name:</h2>
+          <textarea type='text' ng-model='labName' class='form-control'></textarea>
+
+
+          <h2>Short name:</h2>
+          <textarea type='text' ng-model='labShort' class='form-control'></textarea>
+
+
+          <h2>Description:</h2>
+          <textarea ng-model='labDescription' class='form-control' value=''></textarea>
+
+          <h2>tumb:</h2>
+          <textarea ng-model='labTumb' class='form-control'></textarea>
+
+          <h2>Experiment structure:</h2>
+          <textarea ng-model='labStructure' class='form-control'></textarea>
+
+          <h2>Control and Measurement apparatus:</h2>
+          <textarea ng-model='labCaM' class='form-control'></textarea>
+
+          <h2>Math and physical background:</h2>
+          <textarea ng-model='labMaP' class='form-control'></textarea>
+
+          <h2>LabLinks:</h2>
+          <textarea ng-model='labLinks' class='form-control'></textarea>
+
+          <h2>Setup Descritpions:</h2>
+          <textarea type='text' ng-model='setupDescript' class='form-control'></textarea>
+
+          <h2>Guide:</h2>
+          <textarea ng-model='labGuide' class='form-control'></textarea>
+
+          <h2>Skeleton code:</h2>
+          <textarea ng-model='labSkeleton' class='form-control'></textarea>
+
+          <h2>Assignments:</h2>
+          <textarea ng-model='labAssign' class='form-control'></textarea>
+
+
+<strong>{{lab.description}}</strong>
+
+
+    <span class= 'input-group-btn'>
+      <button ng-click='addLab()' class='btn btn-default'>Add Lab</button>
+    </span>
+    <span class= 'input-group-btn'>
+      <button ng-click='getLab()' class='btn btn-default'>Get Lab</button>
+    </span>
+
+
+  </div>
+
+
+
+
+<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.js'></script>
+<script>
+  var app=angular.module('app', [])
+  app.controller('LabsCtrl', function ($scope, $http){
+    $scope.addLab = function (){
+
+      var linksArray = $scope.labLinks.split(',');
+      var descriptionsArray = $scope.setupDescript.split(',');
+
+        {$http.post('http://localhost:3000/api/labs',{
+          name: $scope.labName,
+          short: $scope.labShort,
+          description: $scope.labDescription,
+          tumb: $scope.labTumb,
+          experimentStructure: $scope.labStructure,
+          CaMapparatus: $scope.labCaM,
+          MaPbackground: $scope.labMaP,
+          labLinks: linksArray,
+          setupDescript: descriptionsArray,
+          guide: $scope.labGuide,
+          skeleton: $scope.labSkeleton,
+          assignments: $scope.labAssign
+        }
+      ).success(function (labs){
+
+      })
+      $scope.labName = null}
+
+    }
+    $scope.getLab = function (){
+      var data = {name: $scope.labName};
+      var config = {
+        params: data,
+        headers: {'Accept' : 'application/json'}
+      }
+      $http.get('http://localhost:3000/api/labs'+'?name='+$scope.labName)
+      .success(function(labs){
+        $scope.lab = labs
+        $scope.labShort = labs[0].short
+        $scope.labName = labs[0].name
+        $scope.labDescription = labs[0].description
+        $scope.labTumb = labs[0].tumb
+        $scope.labStructure = labs[0].experimentStructure
+        $scope.labCaM = labs[0].CaMapparatus
+        $scope.labMaP = labs[0].MaPbackground
+        $scope.labLinks = labs[0].labLinks
+        $scope.labGuide = labs[0].guide
+        $scope.labSkeleton = labs[0].skeleton
+        $scope.labAssign = labs[0].assignments
+        $scope.setupDescript = labs[0].setupDescript
+      })
+    }
+
+
+    })
+</script>
+</body>
+</html>

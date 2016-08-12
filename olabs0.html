@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet"
+  href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body ng-app='app'>
+  <div ng-controller = 'LabsCtrl' class='container'>
+    <h1>Recent Posts</h1>
+    <form role='form'>
+      <div class = 'form-group'>
+        <div class = 'input-group'>
+          <h2>Name:</h2>
+          <textarea ng-model='labName' class='form-control'></textarea>
+
+          <h2>Description:</h2>
+          <textarea ng-model='labDescription' class='form-control'></textarea>
+
+          <h2>tumb:</h2>
+          <textarea ng-model='labTumb' class='form-control'></textarea>
+
+          <h2>Experiment structure:</h2>
+          <textarea ng-model='labStructure' class='form-control'></textarea>
+
+          <h2>Control and Measurement apparatus:</h2>
+          <textarea ng-model='labCaM' class='form-control'></textarea>
+
+          <h2>Math and physical background:</h2>
+          <textarea ng-model='labMaP' class='form-control'></textarea>
+
+          <h2>LabLinks:</h2>
+          <textarea ng-model='labLinks' class='form-control'></textarea>
+
+          <h2>Guide:</h2>
+          <textarea ng-model='labGuide' class='form-control'></textarea>
+
+          <h2>Skeleton code:</h2>
+          <textarea ng-model='labSkeleton' class='form-control'></textarea>
+
+          <h2>Assignments:</h2>
+          <textarea ng-model='labAssign' class='form-control'></textarea>
+
+
+
+        </div>
+      </div>
+    </form>
+    <span class= 'input-group-btn'>
+      <button ng-click='addLab()' class='btn btn-default'>Add Post</button>
+    </span>
+
+    <ul class='list-group'>
+      <li ng-repeat= 'post in posts' class='list-group-item'>
+        <strong>@{{post.username}}</strong>
+        <span>{{post.body}}</span>
+      </li>
+  </div>
+
+
+
+
+<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.js'></script>
+<script>
+  var app=angular.module('app', [])
+  app.controller('LabsCtrl', function ($scope, LabSvc){
+    $scope.addLab = function (){
+      if ($scope.labName){
+        LabSvc.create({
+          name: $scope.labName,
+          description: $scope.labDescription,
+          tumb: $scope.labTumb,
+          experimentStructure: $scope.labStructure,
+          Camapparatus: $scope.labCaM,
+          MaPbackground: $scope.labMaP,
+          labLinks: $scope.labLinks,
+          guide: $scope.labGuide,
+          skeleton: $scope.labSkeleton,
+          assignments: $scope.labAssign
+        }).sucess(function (labs){
+
+        })
+      }
+    }
+
+
+    LabSvc.fetch().success(function (labs) {
+      $scope.labs = labs
+    })
+    })
+  })
+</script>
