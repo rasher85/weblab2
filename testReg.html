@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  </head>
+  <body ng-app='app'>
+      <div ng-controller = 'LabsCtrl' class='container'>
+    <p>
+      <input ng-model="emailReg" type="text" placeholder="Email">
+      <input ng-model = "pwReg" type="password" placeholder="Password">
+      <button ng-click='register()'>Register</button><br>
+      <span id="msg-reg"></span>
+    </p>
+    <hr>
+    <p>
+      <input ng-model="emailResend" type="text" placeholder="Email">
+      <button ng-click='resend()'>Resend Verification Email</button><br>
+      <span ng-bing='msg'>{{msg}}</span>
+    </p>
+      </div>
+
+
+<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.js'></script>
+    <script>
+        var app=angular.module('app', [])
+  app.controller('LabsCtrl', function ($scope, $http){
+    $scope.register = function (){
+        var email = $scope.emailReg,
+            password = $scope.pwReg;
+        $http.post('http://localhost:3000/api/register',{
+            email: email, 
+            password: password, 
+            type: 'register'}
+        ).success(function(data) {
+          $scope.msg = data.msg;
+        });
+      }
+      $scope.resend = function (){
+        var email = $scope.emailResend;
+        $http.post('http://localhost:3000/api/register',{
+            email: email,  
+            type: 'resend'}
+        ).success(function(data) {
+          $scope.msg = data.msg;
+        });
+      }
+  })
+    </script>
+  </body>
+</html>

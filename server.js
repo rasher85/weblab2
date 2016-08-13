@@ -6,6 +6,8 @@ app.use(bodyParser.json())
 
 app.use('/api/labs', require('./controllers/api/labs'))
 
+app.use('/api/register', require('./controllers/api/register'))
+
 app.use('/', require('./controllers/static'))
 
 app.listen(3000, function () {
