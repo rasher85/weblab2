@@ -17,10 +17,10 @@ module.exports = service;
 function authenticate(username, password) {
     var deferred = Q.defer();
 
-    User.findOne({ username: username }, function (err, user) {
+    User.findOne({ email: username }, function (err, user) {
         if (err) deferred.reject(err.name + ': ' + err.message);
 
-        if (user && bcrypt.compareSync(password, user.hash)) {
+        if (user && bcrypt.compareSync(password, user.password)) {
             // authentication successful
             deferred.resolve(jwt.sign({ sub: user._id }, config.secret));
         } else {
