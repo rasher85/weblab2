@@ -102,7 +102,7 @@ router.post('/', function(req,res){
                 var URL = newTempUser[nev.options.URLFieldName];
                 console.log(email)
                 
-                nev.sendVerificationEmail(email, function(err, info){
+                nev.sendVerificationEmail(email, URL, function(err, info){
                     if (err){
                         return res.status(404).send('ERROR: sending verification email Failed');
                     }

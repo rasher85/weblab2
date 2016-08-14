@@ -6,6 +6,7 @@
       <div ng-controller = 'LabsCtrl' class='container'>
     <p>
       <input ng-model="emailReg" type="text" placeholder="Email">
+    
       <input ng-model = "pwReg" type="password" placeholder="Password">
       <button ng-click='register()'>Register</button><br>
       <span id="msg-reg"></span>
@@ -26,9 +27,10 @@
     $scope.register = function (){
         var email = $scope.emailReg,
             password = $scope.pwReg;
+            
         $http.post('http://localhost:3000/api/register',{
             email: email, 
-            password: password, 
+            password: password,
             type: 'register'}
         ).success(function(data) {
           $scope.msg = data.msg;

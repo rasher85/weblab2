@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
 
 var userSchema = mongoose.Schema({
   email: String,
-  password: String,
+  password: String
 });
 
 userSchema.methods.validPassword = function(password) {
