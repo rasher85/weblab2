@@ -16,6 +16,8 @@ app.use('/api/users', require('./controllers/api/users.controller'))
 
 app.use(express.static('./'));
 
+app.set('view engine', 'ejs');
+
 app.listen(3000, function () {
   console.log('Server listening on', 3000)
 })

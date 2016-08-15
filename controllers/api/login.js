@@ -1,6 +1,8 @@
 var router = require('express').Router();
 var request = require('request');
 var config = require('../../config.json');
+var express = require('express');
+var app = express();
 
 router.get('/', function (req, res) {
     // log user out
@@ -16,8 +18,8 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
     console.log('login')
     // authenticate using api to maintain clean separation between layers
-    request.post({
-        url: config.apiUrl + '/users/authenticate',
+    app.post({
+        url: 'http://localhost:3000/api/users/authenticate',
         form: req.body,
         json: true
     }, function (error, response, body) {
