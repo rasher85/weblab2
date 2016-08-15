@@ -10,6 +10,8 @@ app.use('/api/register', require('./controllers/api/register'))
 
 app.use('/', require('./controllers/static'))
 
+app.use(express.static('./'));
+
 app.listen(3000, function () {
   console.log('Server listening on', 3000)
 })
