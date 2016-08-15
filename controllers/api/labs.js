@@ -3,21 +3,33 @@ var Labs = require('../../models/labs')
 var router = require('express').Router()
 
 
-router.get('/', function(req,res,next){
+router.get('/labId/:name', function(req,res,next){
   console.log('povlacenje')
-  console.log(req.query.name)
-  Labs.find({name: req.query.name})
+  console.log(req.params.name)
+  Labs.find({name: req.params.name})
   .exec(function(err,labs){
     if (err) { return next(err) }
     res.json(labs)
+    console.log('#############################################################')
     console.log(labs)
   })
 
 })
 
+router.get('/labslist', function(req,res,next){
+    console.log('vadim sve podatke');
+    Labs.find({}, 'name description tumb labLinks', function(err,a){
+        if (err) {return next(err)}
+        res.json(a)
+    })
+})
+
 router.post('/', function(req,res,next){
 
-  console.log('postovanje')
+  console.log('postovanje')  
+  
+  console.log('#############################################################')
+  console.log(req.body)
   var labs = new Labs({
     name: req.body.name,
     description: req.body.description,
@@ -28,9 +40,7 @@ router.post('/', function(req,res,next){
     labLinks: req.body.labLinks,
     guide: req.body.guide,
     skeleton: req.body.skeleton,
-    assignments: req.body.assignments,
-    short: req.body.short,
-    setupDescript: req.body.setupDescript
+    assignments: req.body.assignments
   })
   labs.save(function(err,labs){
     if (err) {return next(err)}
