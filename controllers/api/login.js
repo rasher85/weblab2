@@ -1,4 +1,4 @@
-var router = express.Router();
+var router = require('express').Router();
 var request = require('request');
 var config = require('../../config.json');
 
@@ -14,6 +14,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
+    console.log('login')
     // authenticate using api to maintain clean separation between layers
     request.post({
         url: config.apiUrl + '/users/authenticate',

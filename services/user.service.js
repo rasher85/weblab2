@@ -9,7 +9,6 @@ var service = {};
 
 service.authenticate = authenticate;
 service.getById = getById;
-service.create = create;
 service.delete = _delete;
 
 module.exports = service;

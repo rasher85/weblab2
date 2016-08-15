@@ -2,8 +2,7 @@
 <html>
     <head>
         <meta charset = "UTF-8">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/vendor/jquery.min.js"></script>
-        <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.js'></script>
+        <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js'></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.block-grid/latest/bootstrap3-block-grid.min.css">
@@ -34,7 +33,10 @@
                 float: none;
                 overflow: auto;
             }
+            .dropdown-menu{
+                display: inline-block;
 
+            }
         </style>
 
     </head>
@@ -44,10 +46,13 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">OpenLabs</a>
                 </div>
-                <div class="nav navbar-nav navbar-right">
-                    <li class = "dropdown-toggle"><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a uib-popover-template="'forma.html'" popover-placement="bottom-right" href="#">
+                            <span class="glyphicon glyphicon-log-in"></span> Login
+                        </a>
+                    </li>
+                </ul>
             </div>
         </nav>
         <br>
@@ -138,6 +143,61 @@
                     })
                 }
             })
+            app.controller('LoginCtrl', function ($scope, $http) {
+                $scope.signIn = function(){
+                    $http({
+                        method: 'POST',
+                        url: 'http://localhost:3000/api/login/',
+                        data: {email: $scope.email,
+                               password: $scope.pass}
+                    }).then(function(res){
+                        $scope.loginLabel = res.data;
+                    });
+                }
+                $scope.signUp = function(){
+                    $http({
+                        method: 'POST',
+                        url: 'http://localhost:3000/api/register',
+                        data: {email: $scope.email,
+                               password: $scope.pass,
+                               type: "register"
+                              }
+                    }).then(function(res){
+                        $scope.loginLabel = res.data;
+                    });
+                }
+            });
+        </script>
+        <script type="text/ng-template" id="forma.html" >
+<div ng-controller="LoginCtrl">
+    <div class = "row sredina">
+        <form>
+            <div class="form-group">
+                <label for="inputEmail">Email</label>
+                <input type="email" ng-model = "email" class="form-control" placeholder="uneti e-mail adresu">
+            </div>
+            <div class="form-group">
+                <label for="inputPass">Lozinka</label>
+                <input type="password" ng-model= "pass" class="form-control" placeholder="uneti lozinku">
+            </div>
+            </form>  
+            </div>
+    <div class = "row">
+        <div class = "col-md-2">
+
+            </div>
+        <div class = "col-md-4">
+            <button ng-click="signIn()" class="btn btn-primary">Sign In</button>
+            </div>
+        <div class = "col-md-4">
+            <button ng-click="signUp()" class="btn btn-danger">Sign Up</button>
+            </div>
+        <div class = "col-md-2">
+
+            </div>
+            </div>
+    <div class="row"><label>odg: {{loginLabel}}</label></div>
+            </div>
         </script>
     </body>
 </html>
